@@ -1,0 +1,21 @@
+---
+title: "app1.R"
+author: "Joseline Portuguez L"
+date: "2023-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(shinydashboard)
+library(dplyr)
+library(readxl)
+library(ggplot2)
+```
+
+```{r}
+
+```
+
+
