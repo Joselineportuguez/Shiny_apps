@@ -12,10 +12,15 @@ library(shinydashboard)
 library(dplyr)
 library(readxl)
 library(ggplot2)
+library(readr)
 ```
 
 ```{r}
-
+library(readr)
+datos_empleo_genero <- read_csv("datos_empleo_genero.csv")
+View(datos_empleo_genero)
 ```
+
+
 
 
