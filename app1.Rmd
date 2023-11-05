@@ -21,6 +21,52 @@ datos_empleo_genero <- read_csv("datos_empleo_genero.csv")
 View(datos_empleo_genero)
 ```
 
+```{r}
+ui <- fluidPage(
+  titlePanel("Visualizador De Empleo Según Pais y Genero"),
+  
+  selectInput(inputId = "variable_1",
+              label = "Seleccione país o código de país",
+              choices = c("pais_region", "codigo_pais_region")
+  ),
+  
+ selectInput(inputId = "variable_2",
+              label = "Seleccione año para mostrar en tabla",
+              choices = c("anyo")
+  ),
+  
+  selectInput(inputId = "variable_3",
+              label = "Elija una de las siguientes variables",
+              choices = c("empleadoras_mujeres",  "empleadores_hombres" , "empleo_agricultura_mujeres", "empleo_agricultura_hombres", "empleo_industria_mujeres", "empleo_industria_hombres", "empleo_servicios_mujeres", "empleo_servicios_hombres" ,"empleo_informal_mujeres", "empleo_informal_hombres", "legislacion_acoso_sexual", "autoempleo_mujeres", "autoempleo_hombres", "empleo_parcial_mujeres", "desempleo_educacion_mujeres", "desempleo_educacion_hombres", "desempleo_mujeres", "desempleo_hombres", "trabajo_domestico_no_remunerado_mujeres","trabajo_domestico_no_remunerado_hombres")),
+  actionButton(inputId = "update",  "Mostrar gráfico y tabla"),
+  
+  plotOutput("grafico_dispersion"),
+  tableOutput("tabla")
+  
+)
+
+server <- function(input, output, session) {
+  
+  grafico_datos_empleo <- eventReactive(input$update, { 
+    ggplot(data = datos_empleo_genero) +
+      geom_point(mapping = aes_string(x = input$variable_3, y= input$variable_1))
+  })
+  
+  output$grafico_dispersion <- renderPlot(
+    grafico_datos_empleo()
+  )
+ tabla_datos_empleo <- eventReactive(input$update,{
+   datos_empleo_genero |> 
+     select(input$variable_1,input$variable_2,input$variable_3)
+ })
+  output$tabla <- renderTable({
+   tabla_datos_empleo()
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
 
 
 
